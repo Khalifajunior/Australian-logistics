@@ -2,6 +2,8 @@
 
 async function renderTimeline(orderId) {
   if (!orderId) return;
+  const title = document.getElementById("trackingTitle");
+  const timeline = document.getElementById("timeline");
 
   try {
     const res = await fetch(
@@ -10,19 +12,21 @@ async function renderTimeline(orderId) {
     const result = await res.json();
 
     if (!result.success || !result.data) {
-      console.warn("Tracking info not found.");
+      if (timeline) {
+        timeline.innerHTML = `<p>${
+          result.error || "Tracking info not found."
+        }</p>`;
+      }
       return;
     }
 
     const data = result.data;
 
     // Update header
-    const title = document.getElementById("trackingTitle");
     if (title) {
       title.textContent = `Tracking for Package ID #${data.tracking_id}`;
     }
 
-    const timeline = document.getElementById("timeline");
     if (!timeline) return;
 
     // Define all steps exactly like your HTML
@@ -101,7 +105,7 @@ async function renderTimeline(orderId) {
       )
       .join("");
   } catch (err) {
-    console.error(err);
+    console.error(err.error);
   }
 }
 
