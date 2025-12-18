@@ -1,0 +1,136 @@
+// tracking.js
+
+async function renderTimeline(orderId) {
+  if (!orderId) return;
+
+  try {
+    const res = await fetch(
+      `https://globaljet-rr9l.onrender.com/track/${orderId}`
+    );
+    const result = await res.json();
+
+    if (!result.success || !result.data) {
+      console.warn("Tracking info not found.");
+      return;
+    }
+
+    const data = result.data;
+
+    // Update header
+    const title = document.getElementById("trackingTitle");
+    if (title) {
+      title.textContent = `Tracking for Package ID #${data.tracking_id}`;
+    }
+
+    const timeline = document.getElementById("timeline");
+    if (!timeline) return;
+
+    // Define all steps exactly like your HTML
+    const steps = [
+      {
+        label: "Order Placed",
+        description: "Shipment created by sender",
+        date: data.created_at || "TBA",
+        key: "order_placed",
+      },
+      {
+        label: "Picked Up",
+        description: "Package collected from sender",
+        date: "TBA",
+        key: "picked_up",
+      },
+      {
+        label: "In Transit",
+        description: "Moving through logistics network",
+        date: "TBA",
+        key: "in_transit",
+      },
+      {
+        label: "Arrived at Hub",
+        description: "Package reached regional distribution center",
+        date: "TBA",
+        key: "arrived_hub",
+      },
+      {
+        label: "Out for Delivery",
+        description: "Courier is delivering the package",
+        date: "TBA",
+        key: "out_for_delivery",
+      },
+      {
+        label: "Delivery Attempted",
+        description: "Courier attempted delivery",
+        date: "TBA",
+        key: "delivery_attempted",
+      },
+      {
+        label: "Delivered",
+        description: "Package successfully delivered",
+        date: data.updated_at || "TBA",
+        key: "delivered",
+      },
+    ];
+
+    // Map API status to step progress
+    // Example mapping (adjust depending on your API's status field)
+    const statusOrder = [
+      "pending", // only Order Placed active
+      "picked_up", // first 2 steps active
+      "in_transit", // first 3 steps active
+      "arrived", // first 4 steps active
+      "out_for_delivery", // first 5 steps active
+      "delivery_attempted", // first 6 steps active
+      "delivered", // all 7 steps active
+    ];
+
+    const activeIndex = statusOrder.indexOf(data.status);
+
+    // Generate timeline HTML
+    timeline.innerHTML = steps
+      .map(
+        (step, index) => `
+        <div class="d-item ${index <= activeIndex ? "active" : ""}">
+          <div class="d-text">
+            <div class="d-icon"><i class="fa fa-check"></i></div>
+            <h4>${step.label}</h4>
+            ${step.description ? step.description : ""}
+          </div>
+          <div class="d-date">${step.date}</div>
+        </div>
+      `
+      )
+      .join("");
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Function for button page
+function handleTrackButton() {
+  const btn = document.getElementById("trackBtn");
+  if (!btn) return;
+
+  btn.addEventListener("click", function (e) {
+    e.preventDefault();
+    const orderId = document.getElementById("order_id").value.trim();
+    if (!orderId) {
+      alert("Please enter your tracking number");
+      return;
+    }
+
+    window.location.href = `track-result.html?order=${encodeURIComponent(
+      orderId
+    )}`;
+  });
+}
+
+// Auto-run
+document.addEventListener("DOMContentLoaded", () => {
+  handleTrackButton();
+
+  const params = new URLSearchParams(window.location.search);
+  const orderId = params.get("order");
+  if (orderId) {
+    renderTimeline(orderId);
+  }
+});
