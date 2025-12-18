@@ -13,7 +13,7 @@ async function renderTimeline(orderId) {
 
     if (!result.success || !result.data) {
       if (timeline) {
-        timeline.innerHTML = `<p>${
+        timeline.innerHTML = `<p style="color:red; font-weight:bold; text-align:center">${
           result.error || "Tracking info not found."
         }</p>`;
       }

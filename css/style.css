@@ -6796,7 +6796,7 @@ footer .widget{
   border-color: #555;
 }
 
-.widget_tags li a:hover border-color: #eceff3;
+.widget_tags li a:hover {border-color: #eceff3;
 }
 
 footer .widget {
@@ -7114,7 +7114,7 @@ footer .tiny-border span {
 
 
 .owl-carousel.no-hide .owl-stage-outer{
-  overflow: visible; !important;
+  overflow: visible !important;
 }
 
 .grayscale{
@@ -8774,6 +8774,8 @@ input[type="range"]::-moz-range-thumb {
   justify-content: space-between;
   position: relative;
 }
+
+
 
 .de-timeline .d-item{
   content: "";
