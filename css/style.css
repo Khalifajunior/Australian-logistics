@@ -92,7 +92,7 @@ Table of content:
   --mainmenu-text-transform: uppercase;
   /* header logo */
   --logo-width: 140px;
-  --logo-footer-width: 150px;
+  --logo-footer-width: 120px;
   /* misc */
   --border-default: solid 1px rgba(30, 30, 30, 1);
   --bg-color-even: #e8e8e8;
@@ -13328,6 +13328,9 @@ img {
   .countdown-amount {
     font-size: 32px;
   }
+  footer .widget h3 {
+    --h3-font-size: 24px;
+  }
 }
 
 /* steps */
@@ -14365,6 +14368,8 @@ img {
 
   header .logo-mobile {
     display: block;
+
+    --logo-width: 140px;
   }
 
   header .menu_side_area .btn-main {
@@ -14374,7 +14379,9 @@ img {
   #topbar {
     display: none;
   }
-
+  footer .widget h3 {
+    --h3-font-size: 20px;
+  }
   .menu_side_area {
     margin-left: 20px;
     width: 100%;
