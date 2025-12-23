@@ -40,7 +40,7 @@ async function renderTimeline(orderId) {
       {
         label: "Picked Up",
         description: `Package collected from ${
-          data.pickup_location || "sender's address"
+          data.origin || "sender's address"
         }`,
         date: "Done",
         key: "picked_up",
