@@ -34,43 +34,47 @@ async function renderTimeline(orderId) {
       {
         label: "Order Placed",
         description: "Shipment created by sender",
-        date: data.created_at || "TBA",
+        date: data.created_at || "Done",
         key: "order_placed",
       },
       {
         label: "Picked Up",
-        description: "Package collected from sender",
-        date: "TBA",
+        description: `Package collected from ${
+          data.origin || "sender's address"
+        }`,
+        date: "Done",
         key: "picked_up",
       },
-      {
-        label: "In Transit",
-        description: "Moving through logistics network",
-        date: "TBA",
-        key: "in_transit",
-      },
-      {
-        label: "Arrived at Hub",
-        description: "Package reached regional distribution center",
-        date: "TBA",
-        key: "arrived_hub",
-      },
+      // {
+      //   label: "In Transit",
+      //   description: "Moving through logistics network",
+      //   date: "TBA",
+      //   key: "in_transit",
+      // },
+      // {
+      //   label: "Arrived at Hub",
+      //   description: "Package reached regional distribution center",
+      //   date: "TBA",
+      //   key: "arrived_hub",
+      // },
       {
         label: "Out for Delivery",
         description: "Courier is delivering the package",
-        date: "TBA",
+        date: "Done",
         key: "out_for_delivery",
       },
       {
         label: "Delivery Attempted",
         description: "Courier attempted delivery",
-        date: "TBA",
+        date: "Done",
         key: "delivery_attempted",
       },
       {
         label: "Delivered",
-        description: "Package successfully delivered",
-        date: data.updated_at || "TBA",
+        description: `Package successfully delivered to ${
+          data.destination || "Destination Address"
+        }`,
+        date: data.updated_at || "Done",
         key: "delivered",
       },
     ];
@@ -79,15 +83,13 @@ async function renderTimeline(orderId) {
     // Example mapping (adjust depending on your API's status field)
     const statusOrder = [
       "pending", // only Order Placed active
-      "picked_up", // first 2 steps active
-      "in_transit", // first 3 steps active
-      "arrived", // first 4 steps active
-      "out_for_delivery", // first 5 steps active
-      "delivery_attempted", // first 6 steps active
-      "delivered", // all 7 steps active
+      "picked", // first 2 steps active
+      "out", // first 3 steps active
+      "attempted", // first 4 steps active
+      "delivered", // all 5 steps active
     ];
 
-    const activeIndex = statusOrder.indexOf(data.status);
+    const activeIndex = statusOrder.indexOf(data.status.toLowerCase());
 
     // Generate timeline HTML
     timeline.innerHTML = steps
