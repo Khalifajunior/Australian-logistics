@@ -33,7 +33,7 @@ async function renderTimeline(orderId) {
     const steps = [
       {
         label: "Order Placed",
-        description: "Shipment created by sender",
+        description: "Delivery order created",
         date: data.created_at || "Done",
         key: "order_placed",
       },
