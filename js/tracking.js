@@ -39,7 +39,7 @@ async function renderTimeline(orderId) {
       },
       {
         label: "Picked Up",
-        description: `Package collected from ${
+        description: `Package collected ${
           data.origin || "sender's address"
         }`,
         date: "Done",
